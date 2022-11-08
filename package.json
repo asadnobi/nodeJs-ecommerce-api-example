@@ -4,16 +4,21 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devStart": "nodemon server.js" 
+    "devStart": "nodemon npm start"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "crypto-js": "^4.1.1",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
     "express": "~4.16.1",
-    "http-errors": "~1.6.3",
+    "google-libphonenumber": "^3.2.31",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.1",
     "morgan": "~1.9.1",
-    "pug": "2.0.0-beta11"
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

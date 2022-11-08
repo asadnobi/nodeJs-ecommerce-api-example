@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const mobileNoCheck = require('../utilities/mobileValidator');
+const validator = require('validator');
 
 
 const cardSchema = new Schema({
@@ -36,22 +38,42 @@ const userSchema = new Schema({
   first_name: {type: String, required: true, minlength: 1, maxlength: 50},
   last_name: {type: String, required: true, minlength: 1, maxlength: 50},
   phone_no: {type: String, default: null},
-  mobile_no: {type: String, required: true, minlength: 2, maxlength: 50},
-  email: {type: String, required: true, lowercase: true},
+  mobile_no: {
+    type: String, 
+    unique: true, 
+    required: true,
+    validate: {
+      validator: (value) => { return mobileNoCheck(value) },
+      message: "please provide correct mobile number"
+    },
+  },
+  email: {
+    type: String, 
+    unique: true, 
+    required: true, 
+    lowercase: true,
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email"
+    }
+  },
   isVerified: {type: Boolean, default: false},
   date_of_birth: {type: Date, default: null},
   primary_address: addressSchema | null,
   order_address: [takewayAddressSchema],
   parcel_address: [takewayAddressSchema],
   card_info: [cardSchema],
-  registered_platform: {type: String, immutable: true, required: true},
+  registered_platform: {type: String, immutable: true, default: () => 'web'},
   total_orders: {type: Number, default: 0},
   orderList: [{ type: Schema.Types.ObjectId, ref: 'Orders' }],
   user_role: {type: Number, default: 1},
   user_type: {type: String, immutable: true, default: () => 'normal'},
+  password: {type: String, required: true},
+  token: {type: String, default: null},
+  profile_img: {type: String, default: null},
   createdAt: { type: Date, immutable: true, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() },
-}, { versionKey: false })
+})
 
 
 userSchema.pre('save', () => {
