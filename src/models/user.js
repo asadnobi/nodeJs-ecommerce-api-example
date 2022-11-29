@@ -41,9 +41,9 @@ const userSchema = new Schema({
   mobile_no: {
     type: String, 
     unique: true, 
-    required: true,
+    default: null,
     validate: {
-      validator: (value) => { return mobileNoCheck(value) },
+      validator: (value) => { if(value) return mobileNoCheck(value) },
       message: "please provide correct mobile number"
     },
   },
@@ -69,7 +69,6 @@ const userSchema = new Schema({
   user_role: {type: Number, default: 1},
   user_type: {type: String, immutable: true, default: () => 'normal'},
   password: {type: String, required: true},
-  token: {type: String, default: null},
   profile_img: {type: String, default: null},
   createdAt: { type: Date, immutable: true, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() },

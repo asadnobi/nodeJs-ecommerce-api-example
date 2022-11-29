@@ -6,7 +6,7 @@ const checkApiKey = async (req, res, next) => {
     if (!apikey) return res.status(400).send({status: false, msg: "Please provide a valid API key"});
     const encryptedKey = toEncrypt(apikey);
     const foundKey = await ApiKeyModel.findOne({ key: encryptedKey })
-    if (!foundKey) return res.status(400).send({status: false, msg: "Please provide a valid API key"});
+    if (!foundKey) return res.status(406).send({status: false, msg: "Please provide a valid API key"});
     next();
 }
 
